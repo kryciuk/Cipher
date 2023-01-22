@@ -126,7 +126,7 @@ class Rot47(Rot):
         """
         encoded: List[str] = []
         for i in text:
-            if re.match(r" ", i):
+            if re.match("[ \n\t\r]", i):
                 encoded.append(i)
                 continue
             encoded_index: int = cls.key_rot47.index(i) + 47
@@ -149,7 +149,7 @@ class Rot47(Rot):
         """
         decoded: List[str] = []
         for i in text:
-            if re.match(r" ", i):
+            if re.match("[ \n\t\r]", i):
                 decoded.append(i)
                 continue
             encoded_index: int = cls.key_rot47.index(i) - 47
