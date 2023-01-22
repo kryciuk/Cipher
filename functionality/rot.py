@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import re
+from typing import List
 
 
 class Rot(ABC):
@@ -15,6 +16,7 @@ class Rot(ABC):
     decode(text)
         Decodes a message.
     """
+
     @abstractmethod
     def encode(self, text):
         """
@@ -43,10 +45,10 @@ class Rot13(Rot):
     decode(text)
         Decodes a message using Rot13.
     """
-    key_rot13 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    key_rot13: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     @classmethod
-    def encode(cls, text):
+    def encode(cls, text: str) -> str:
         """
         Returns an encoded message using Rot13 cipher.
 
@@ -57,20 +59,20 @@ class Rot13(Rot):
                     encoded_message (str): The encoded message
         """
         text = text.upper()
-        encoded = []
+        encoded: List[str] = []
         for i in text:
             if re.match(r"[\s\W\d]", i):
                 encoded.append(i)
                 continue
-            encoded_index = cls.key_rot13.index(i) + 13
+            encoded_index: int = cls.key_rot13.index(i) + 13
             if encoded_index >= 26:
                 encoded_index -= 26
             encoded.append(cls.key_rot13[encoded_index])
-        encoded_message = "".join(encoded)
+        encoded_message: str = "".join(encoded)
         return encoded_message
 
     @classmethod
-    def decode(cls, text):
+    def decode(cls, text: str) -> str:
         """
         Returns a decoded message using Rot13 cipher.
 
@@ -81,16 +83,16 @@ class Rot13(Rot):
                     decoded_message (str): The decoded message
         """
         text = text.upper()
-        decoded = []
+        decoded: List[str] = []
         for i in text:
             if re.match(r"[\s\W\d]", i):
                 decoded.append(i)
                 continue
-            decoded_index = cls.key_rot13.index(i) - 13
+            decoded_index: int = cls.key_rot13.index(i) - 13
             if decoded_index < 0:
                 decoded_index += 26
             decoded.append(cls.key_rot13[decoded_index])
-        decoded_message = "".join(decoded)
+        decoded_message: str = "".join(decoded)
         return decoded_message
 
 
@@ -107,10 +109,10 @@ class Rot47(Rot):
     decode(text)
         Decodes a message using Rot47.
     """
-    key_rot47 = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+    key_rot47: str = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
     @classmethod
-    def encode(cls, text):
+    def encode(cls, text: str) -> str:
         """
         Returns an encoded message using Rot47 cipher.
 
@@ -120,20 +122,20 @@ class Rot47(Rot):
             Returns:
                     encoded_message (str): The encoded message
         """
-        encoded = []
+        encoded: List[str] = []
         for i in text:
             if re.match(r" ", i):
                 encoded.append(i)
                 continue
-            encoded_index = cls.key_rot47.index(i) + 47
+            encoded_index: int = cls.key_rot47.index(i) + 47
             if encoded_index >= 94:
                 encoded_index -= 94
             encoded.append(cls.key_rot47[encoded_index])
-        encoded_message = "".join(encoded)
+        encoded_message: str = "".join(encoded)
         return encoded_message
 
     @classmethod
-    def decode(cls, text):
+    def decode(cls, text: str) -> str:
         """
         Returns a decoded message using Rot47 cipher.
 
@@ -143,16 +145,16 @@ class Rot47(Rot):
             Returns:
                     decoded_message (str): The decoded message
         """
-        decoded = []
+        decoded: List[str] = []
         for i in text:
             if re.match(r" ", i):
                 decoded.append(i)
                 continue
-            encoded_index = cls.key_rot47.index(i) - 47
+            encoded_index: int = cls.key_rot47.index(i) - 47
             if encoded_index < 0:
                 encoded_index += 94
             decoded.append(cls.key_rot47[encoded_index])
-        decoded_message = "".join(decoded)
+        decoded_message: str = "".join(decoded)
         return decoded_message
 
 
@@ -168,5 +170,5 @@ def main():
 if __name__ == "__main__":
     main()
 
-#https://www.dcode.fr/rot-13-cipher
-#https://www.dcode.fr/rot-47-cipher
+# https://www.dcode.fr/rot-13-cipher
+# https://www.dcode.fr/rot-47-cipher
