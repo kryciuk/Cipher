@@ -45,6 +45,7 @@ class Rot13(Rot):
     decode(text)
         Decodes a message using Rot13.
     """
+
     key_rot13: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     @classmethod
@@ -109,6 +110,7 @@ class Rot47(Rot):
     decode(text)
         Decodes a message using Rot47.
     """
+
     key_rot47: str = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
     @classmethod
