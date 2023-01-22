@@ -5,7 +5,7 @@ from typing import List
 
 class Rot(ABC):
     """
-    Class representation for encrypting and decrypting messages using a cipher.
+    Representation of a class for encrypting and decrypting messages using a cipher.
 
     ...
 
