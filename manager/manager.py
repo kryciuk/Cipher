@@ -2,9 +2,12 @@ from functionality.rot import Rot47, Rot13
 
 
 class Manager:
+    buffer = []
+
     def start(self):
-        self.show_menu()
-        self.execute()
+        while True:
+            self.show_menu()
+            self.execute()
 
     @staticmethod
     def show_menu():
@@ -19,6 +22,7 @@ class Manager:
             case 2:
                 return Manager.decoding()
             case 3:
+                del Manager.buffer
                 exit()
             case _:
                 print("Incorrect choice")
@@ -116,13 +120,18 @@ class FileOperations:
             lines = file.read()
             lines_encoded = Rot13.encode(lines)
             file.write(lines_encoded)
+        Manager.buffer.append(
+            {"type": "rot13", "text": lines_encoded, "status": "encrypted"}
+        )
 
     @classmethod
     def encrypt_create_rot13(cls, file_name, new_file_name):
         with open(file_name, "r") as file:
             lines = file.read()
         with open(new_file_name, "w") as file:
-            file.write(Rot13.encode(lines))
+            text = Rot13.encode(lines)
+            file.write(text)
+        Manager.buffer.append({"type": "rot13", "text": text, "status": "encrypted"})
 
     @classmethod
     def encrypt_add_rot47(cls, file_name):
@@ -131,13 +140,18 @@ class FileOperations:
             lines = file.read()
             lines_encoded = Rot47.encode(lines)
             file.write(lines_encoded)
+        Manager.buffer.append(
+            {"type": "rot47", "text": lines_encoded, "status": "encrypted"}
+        )
 
     @classmethod
     def encrypt_create_rot47(cls, file_name, new_file_name):
         with open(file_name, "r") as file:
             lines = file.read()
         with open(new_file_name, "w") as file:
-            file.write(Rot47.encode(lines))
+            text = Rot47.encode(lines)
+            file.write(text)
+        Manager.buffer.append({"type": "rot47", "text": text, "status": "encrypted"})
 
     @classmethod
     def decrypt_add_rot13(cls, file_name):
@@ -146,13 +160,18 @@ class FileOperations:
             lines = file.read()
             lines_decoded = Rot13.decode(lines)
             file.write(lines_decoded)
+        Manager.buffer.append(
+            {"type": "rot13", "text": lines_decoded, "status": "decrypted"}
+        )
 
     @classmethod
     def decrypt_create_rot13(cls, file_name, new_file_name):
         with open(file_name, "r") as file:
             lines = file.read()
         with open(new_file_name, "w") as file:
-            file.write(Rot13.decode(lines))
+            text = Rot13.decode(lines)
+            file.write(text)
+        Manager.buffer.append({"type": "rot13", "text": text, "status": "decrypted"})
 
     @classmethod
     def decrypt_add_rot47(cls, file_name):
@@ -161,13 +180,18 @@ class FileOperations:
             lines = file.read()
             lines_decoded = Rot47.decode(lines)
             file.write(lines_decoded)
+        Manager.buffer.append(
+            {"type": "rot47", "text": lines_decoded, "status": "decrypted"}
+        )
 
     @classmethod
     def decrypt_create_rot47(cls, file_name, new_file_name):
         with open(file_name, "r") as file:
             lines = file.read()
         with open(new_file_name, "w") as file:
-            file.write(Rot47.decode(lines))
+            text = Rot47.decode(lines)
+            file.write(text)
+        Manager.buffer.append({"type": "rot47", "text": text, "status": "decrypted"})
 
 
 class Menu:
@@ -194,20 +218,10 @@ class Menu:
         )
 
 
-class Buffer:
-    def __init__(self):
-        self.storage_rot13_encoded = []
-        self.storage_rot47_encoded = []
-        self.storage_rot13_decoded = []
-        self.storage_rot47_decoded = []
-
-    def add(self):
-        pass
-
-
 def main():
     manager = Manager()
     manager.start()
+    print(Manager.buffer)
 
 
 if __name__ == "__main__":
