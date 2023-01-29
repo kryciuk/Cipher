@@ -3,8 +3,6 @@ from file_handler.file_handler import FileOperations
 
 
 class Manager:
-    buffer = []
-
     def start(self):
         while True:
             self.show_menu()
@@ -23,7 +21,7 @@ class Manager:
             case 2:
                 return Manager.decoding()
             case 3:
-                del Manager.buffer
+                # del Buffer
                 exit()
             case _:
                 print("Incorrect choice")
