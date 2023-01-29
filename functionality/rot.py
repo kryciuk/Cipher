@@ -1,6 +1,7 @@
+import string
 from abc import ABC, abstractmethod
-import re
 from typing import List
+from string import ascii_uppercase
 
 
 class Rot(ABC):
@@ -17,15 +18,17 @@ class Rot(ABC):
         Decodes a message.
     """
 
+    @staticmethod
     @abstractmethod
-    def encode(self, text):
+    def encode(text):
         """
         Returns an encoded message using a cipher.
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def decode(self, text):
+    def decode(text):
         """
         Returns a decoded message using a cipher.
         """
@@ -46,10 +49,8 @@ class Rot13(Rot):
         Decodes a message using Rot13.
     """
 
-    key_rot13: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    @classmethod
-    def encode(cls, text: str) -> str:
+    @staticmethod
+    def encode(text: str) -> str:
         """
         Returns an encoded message using Rot13 cipher.
 
@@ -61,19 +62,19 @@ class Rot13(Rot):
         """
         text = text.upper()
         encoded: List[str] = []
-        for i in text:
-            if re.match(r"[\s\W\d]", i):
-                encoded.append(i)
+        for letter in text:
+            if letter in string.punctuation or letter.isspace():
+                encoded.append(letter)
                 continue
-            encoded_index: int = cls.key_rot13.index(i) + 13
+            encoded_index: int = ascii_uppercase.index(letter) + 13
             if encoded_index >= 26:
                 encoded_index -= 26
-            encoded.append(cls.key_rot13[encoded_index])
+            encoded.append(ascii_uppercase[encoded_index])
         encoded_message: str = "".join(encoded)
         return encoded_message
 
-    @classmethod
-    def decode(cls, text: str) -> str:
+    @staticmethod
+    def decode(text: str) -> str:
         """
         Returns a decoded message using Rot13 cipher.
 
@@ -85,14 +86,14 @@ class Rot13(Rot):
         """
         text = text.upper()
         decoded: List[str] = []
-        for i in text:
-            if re.match(r"[\s\W\d]", i):
-                decoded.append(i)
+        for letter in text:
+            if letter in string.punctuation or letter.isspace():
+                decoded.append(letter)
                 continue
-            decoded_index: int = cls.key_rot13.index(i) - 13
+            decoded_index: int = ascii_uppercase.index(letter) - 13
             if decoded_index < 0:
                 decoded_index += 26
-            decoded.append(cls.key_rot13[decoded_index])
+            decoded.append(ascii_uppercase[decoded_index])
         decoded_message: str = "".join(decoded)
         return decoded_message
 
@@ -111,7 +112,7 @@ class Rot47(Rot):
         Decodes a message using Rot47.
     """
 
-    key_rot47: str = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+    key_rot47: List[str] = [chr(num) for num in range(33, 127)]
 
     @classmethod
     def encode(cls, text: str) -> str:
@@ -125,11 +126,11 @@ class Rot47(Rot):
                     encoded_message (str): The encoded message
         """
         encoded: List[str] = []
-        for i in text:
-            if re.match("[ \n\t\r]", i):
-                encoded.append(i)
+        for character in text:
+            if character not in cls.key_rot47:
+                encoded.append(character)
                 continue
-            encoded_index: int = cls.key_rot47.index(i) + 47
+            encoded_index: int = cls.key_rot47.index(character) + 47
             if encoded_index >= 94:
                 encoded_index -= 94
             encoded.append(cls.key_rot47[encoded_index])
@@ -148,11 +149,11 @@ class Rot47(Rot):
                     decoded_message (str): The decoded message
         """
         decoded: List[str] = []
-        for i in text:
-            if re.match("[ \n\t\r]", i):
-                decoded.append(i)
+        for character in text:
+            if character not in cls.key_rot47:
+                decoded.append(character)
                 continue
-            encoded_index: int = cls.key_rot47.index(i) - 47
+            encoded_index: int = cls.key_rot47.index(character) - 47
             if encoded_index < 0:
                 encoded_index += 94
             decoded.append(cls.key_rot47[encoded_index])
@@ -167,6 +168,11 @@ def main():
     print(Rot47.decode("y@6 H2:E65 7@C E96 EC2:?]"))
     print(Rot47.decode.__doc__)
     print(Rot47.__doc__)
+    # user_input = "rot13"
+    # if user_input == "rot13":
+    #     return Rot13
+    # elif user_input == "rot47":
+    #     return Rot47
 
 
 if __name__ == "__main__":
