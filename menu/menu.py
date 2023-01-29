@@ -3,10 +3,10 @@ from colorama import Fore
 
 class Menu:
     @staticmethod
-    def show_menu():
+    def main_menu():
         print(
             Fore.GREEN + "What do you want to do?\n1 - encode "
-            "file\n2 - decode file\n3 - end program"
+            "file\n2 - decode file\n3 - show buffer\n4 - end program"
         )
 
     @staticmethod
@@ -23,6 +23,6 @@ class Menu:
     @staticmethod
     def file_choice():
         print(
-            Fore.CYAN + "Add the encoded message to an existing file "
+            Fore.CYAN + "Add the message to an existing file "
             "or create a new one?\n1 - Add\n2 - Create new"
         )
