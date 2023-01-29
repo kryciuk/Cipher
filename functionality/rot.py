@@ -1,4 +1,3 @@
-import string
 from abc import ABC, abstractmethod
 from typing import List
 from string import ascii_uppercase
@@ -63,7 +62,7 @@ class Rot13(Rot):
         text = text.upper()
         encoded: List[str] = []
         for letter in text:
-            if letter in string.punctuation or letter.isspace():
+            if not letter.isalpha():
                 encoded.append(letter)
                 continue
             encoded_index: int = ascii_uppercase.index(letter) + 13
@@ -87,7 +86,7 @@ class Rot13(Rot):
         text = text.upper()
         decoded: List[str] = []
         for letter in text:
-            if letter in string.punctuation or letter.isspace():
+            if not letter.isalpha():
                 decoded.append(letter)
                 continue
             decoded_index: int = ascii_uppercase.index(letter) - 13
