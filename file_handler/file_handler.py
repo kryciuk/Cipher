@@ -3,7 +3,7 @@ from buffer.buffer import Buffer
 import json
 
 
-class FileOperations:
+class FileHandler:
     @staticmethod
     def encrypt(choice, file_name, rot, new_file_name=None):
         with open(file_name, "r+") as file:

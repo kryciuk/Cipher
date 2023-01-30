@@ -1,5 +1,5 @@
 from menu.menu import Menu
-from file_handler.file_handler import FileOperations
+from file_handler.file_handler import FileHandler
 
 
 class RotOperations:
@@ -14,15 +14,15 @@ class RotOperations:
             new_file_name = input("Enter the file name...\n")
         match [rot_choice, file_choice]:
             case [1, 1]:
-                return FileOperations.encrypt(file_choice, file_to_encrypt, rot_choice)
+                return FileHandler.encrypt(file_choice, file_to_encrypt, rot_choice)
             case [1, 2]:
-                return FileOperations.encrypt(
+                return FileHandler.encrypt(
                     file_choice, file_to_encrypt, rot_choice, new_file_name
                 )
             case [2, 1]:
-                return FileOperations.decrypt(file_choice, file_to_encrypt, rot_choice)
+                return FileHandler.decrypt(file_choice, file_to_encrypt, rot_choice)
             case [2, 2]:
-                return FileOperations.decrypt(
+                return FileHandler.decrypt(
                     file_choice, file_to_encrypt, rot_choice, new_file_name
                 )
             case _:
