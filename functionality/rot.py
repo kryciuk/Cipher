@@ -48,6 +48,9 @@ class Rot13(Rot):
         Decodes a message using Rot13.
     """
 
+    def __repr__(self):
+        return "Rot13"
+
     @staticmethod
     def encode(text: str) -> str:
         """
@@ -113,6 +116,9 @@ class Rot47(Rot):
 
     key_rot47: List[str] = [chr(num) for num in range(33, 127)]
 
+    def __repr__(self):
+        return "Rot47"
+
     @classmethod
     def encode(cls, text: str) -> str:
         """
@@ -160,22 +166,8 @@ class Rot47(Rot):
         return decoded_message
 
 
-def main():
-    print(Rot13.encode("Joe waited for the train."))
-    print(Rot13.decode("Wbr jnvgrq sbe gur genva."))
-    print(Rot47.encode("Joe waited for the train."))
-    print(Rot47.decode("y@6 H2:E65 7@C E96 EC2:?]"))
-    print(Rot47.decode.__doc__)
-    print(Rot47.__doc__)
-    # user_input = "rot13"
-    # if user_input == "rot13":
-    #     return Rot13
-    # elif user_input == "rot47":
-    #     return Rot47
-
-
-if __name__ == "__main__":
-    main()
-
-# https://www.dcode.fr/rot-13-cipher
-# https://www.dcode.fr/rot-47-cipher
+def get_rot(rot_type):
+    if rot_type == "rot13":
+        return Rot13
+    elif rot_type == "rot47":
+        return Rot47

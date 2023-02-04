@@ -5,8 +5,9 @@ class Menu:
     @staticmethod
     def main_menu():
         print(
-            Fore.GREEN + "What do you want to do?\n1 - encode "
-            "file\n2 - decode file\n3 - show buffer\n4 - end program"
+            Fore.GREEN + "What do you want to do?\n1 - change rot\n"
+            "2 - encode\n3 - decode\n4 - show buffer "
+            "menu\n5 - end program "
         )
 
     @staticmethod
@@ -14,15 +15,20 @@ class Menu:
         return int(input())
 
     @staticmethod
-    def rot_choice():
+    def write_load_menu():
         print(
-            Fore.MAGENTA + "Enter the number corresponding to the "
-            "cipher you want to use:\n1 - Rot13\n2 - Rot47"
+            Fore.MAGENTA + "Do you want to write a message "
+            "or load from a file?\n1 - Write\n2 - Load"
         )
 
     @staticmethod
-    def file_choice():
+    def save_or_buffer_menu():
+        print(Fore.RED + "Save the message or add it to a buffer?\n1 - Save\n2 - Add")
+
+    @staticmethod
+    def new_or_existing_menu():
         print(
-            Fore.CYAN + "Add the message to an existing file "
-            "or create a new one?\n1 - Add\n2 - Create new"
+            Fore.BLUE + "Save the message to a new file, or add "
+            "it to the file from which it was read?\n1 - New\n2 "
+            "- Existing "
         )
