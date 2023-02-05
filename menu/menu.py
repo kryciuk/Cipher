@@ -5,9 +5,9 @@ class Menu:
     @staticmethod
     def main_menu():
         print(
-            Fore.GREEN + "What do you want to do?\n1 - change rot\n"
-            "2 - encode\n3 - decode\n4 - show buffer "
-            "menu\n5 - end program "
+            Fore.GREEN + "What do you want to do?\n1 - Change rot\n"
+            "2 - Encode\n3 - Decode\n4 - Show buffer "
+            "menu\n5 - End program "
         )
 
     @staticmethod
@@ -31,4 +31,12 @@ class Menu:
             Fore.BLUE + "Save the message to a new file, or add "
             "it to the file from which it was read?\n1 - New\n2 "
             "- Existing "
+        )
+
+    @staticmethod
+    def buffer_main_menu():
+        print(
+            Fore.LIGHTCYAN_EX + "Buffer main menu:\n1 - Show buffer"
+            "\n2 - Clear buffer\n3 - Save to a file\n4 - Return to "
+            "main menu"
         )

@@ -2,6 +2,7 @@ from menu import Menu
 from functionality import get_rot
 from colorama import Fore
 from file_handler.file_handler import FileHandler
+from buffer import Message, Buffer
 
 
 class Manager:
@@ -18,7 +19,8 @@ class Manager:
         Menu.main_menu()
 
     def execute(self):
-        choice = int(input())
+        choice = input()
+        choice = choice_int_checker(choice)
         match choice:
             case 1:
                 self.change_rot()
@@ -28,10 +30,8 @@ class Manager:
             case 3:
                 self.write_or_load("decode")
             case 4:
-                # buffer
-                pass
+                Buffer.buffer_menu()
             case 5:
-                # zakończ
                 exit()
             case _:
                 print("Incorrect choice")
@@ -45,7 +45,8 @@ class Manager:
 
     def write_or_load(self, method):
         Menu.write_load_menu()
-        choice = int(input())
+        choice = input()
+        choice = choice_int_checker(choice)
         match choice:
             case 1:
                 message = input("Write a message: ")
@@ -59,23 +60,29 @@ class Manager:
 
     def save_or_buffer(self, method, message, file_name=None):
         if method == "encode":
-            modified_message = self.rot.encode(message)
+            modified_message = Message(
+                self.rot.__name__, self.rot.encode(message), "encoded"
+            )
         elif method == "decode":
-            modified_message = self.rot.decode(message)
-        print(Fore.LIGHTYELLOW_EX, f"Your message: {modified_message}", sep="")
+            modified_message = Message(
+                self.rot.__name__, self.rot.decode(message), "decoded"
+            )
+        print(Fore.LIGHTYELLOW_EX, f"Your message: {modified_message.text}", sep="")
         Menu.save_or_buffer_menu()
-        choice = int(input())
+        choice = input()
+        choice = choice_int_checker(choice)
         match choice:
             case 1:
-                self.new_or_existing(modified_message, file_name)
+                self.new_or_existing(modified_message, file_name, message)
             case 2:
-                # do buffera
-                pass
+                Buffer.buffer.append(modified_message.to_dct())
             case 3:
                 return None
+            case _:
+                print("Incorrect choice")
 
     @staticmethod
-    def new_or_existing(modified_message, file_name=None):
+    def new_or_existing(modified_message, file_name=None, old_message=None):
         if file_name is None:
             print(
                 "The message was not loaded from a file. Only writing to a new file possible."
@@ -83,10 +90,20 @@ class Manager:
             choice = 1
         elif file_name is not None:
             Menu.new_or_existing_menu()
-            choice = int(input())
+            choice = input()
+            choice = choice_int_checker(choice)
         match choice:
             case 1:
                 new_file_name = input("Enter a file name: ") + ".json"
-                return FileHandler.save_to_new(new_file_name, modified_message)
+                return FileHandler.save_to_new(new_file_name, modified_message.text)
             case 2:
-                pass
+                combined_message = f"{old_message} {modified_message.text}"
+                return FileHandler.save_to_existing(file_name, combined_message)
+
+
+def choice_int_checker(choice):
+    try:
+        choice = int(choice)
+    except ValueError:
+        pass
+    return choice

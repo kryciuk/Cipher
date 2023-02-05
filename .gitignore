@@ -161,6 +161,6 @@ cython_debug/
 
 
 scope.md
-test.txt
-file_handler/file_handler1.py
 test.json
+test1.json
+test2.json
