@@ -92,7 +92,7 @@ class Rot13(Rot):
             if not letter.isalpha():
                 decoded.append(letter)
                 continue
-            decoded_index: int = ascii_uppercase.index(letter) - 13
+            decoded_index: int = ascii_uppercase.index(letter) - 13  # -> A + 13 + 13
             if decoded_index < 0:
                 decoded_index += 26
             decoded.append(ascii_uppercase[decoded_index])
