@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from string import ascii_uppercase
+from string import ascii_uppercase, ascii_lowercase
 
 
 class Rot(ABC):
@@ -11,25 +11,15 @@ class Rot(ABC):
 
     Methods
     -------
-    encode(text)
-        Encodes a message.
-    decode(text)
-        Decodes a message.
+    encode_decode(text)
+        Method for both message encoding and decoding
     """
 
     @staticmethod
     @abstractmethod
-    def encode(text):
+    def encode_decode(text):
         """
-        Returns an encoded message using a cipher.
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def decode(text):
-        """
-        Returns a decoded message using a cipher.
+        Returns an encoded or decoded message using a cipher.
         """
         pass
 
@@ -42,62 +32,41 @@ class Rot13(Rot):
 
     Methods
     -------
-    encode(text)
-        Encodes a message using Rot13.
-    decode(text)
-        Decodes a message using Rot13.
+    encode_decode(text)
+        Method for both message encoding and decoding using Rot13.
     """
 
     def __repr__(self):
         return "Rot13"
 
     @staticmethod
-    def encode(text: str) -> str:
+    def encode_decode(text: str) -> str:
         """
-        Returns an encoded message using Rot13 cipher.
+        Returns an encoded or decoded message using Rot13 cipher.
 
             Parameters:
-                    text (str): The message to be encoded
+                    text (str): The message to be encoded/decoded
 
             Returns:
-                    encoded_message (str): The encoded message
+                    modified_message (str): The encoded/decoded message
         """
-        text = text.upper()
-        encoded: List[str] = []
+        modified: List[str] = []
         for letter in text:
             if not letter.isalpha():
-                encoded.append(letter)
+                modified.append(letter)
                 continue
-            encoded_index: int = ascii_uppercase.index(letter) + 13
-            if encoded_index >= 26:
-                encoded_index -= 26
-            encoded.append(ascii_uppercase[encoded_index])
-        encoded_message: str = "".join(encoded)
-        return encoded_message
-
-    @staticmethod
-    def decode(text: str) -> str:
-        """
-        Returns a decoded message using Rot13 cipher.
-
-            Parameters:
-                    text (str): The message to be decoded
-
-            Returns:
-                    decoded_message (str): The decoded message
-        """
-        text = text.upper()
-        decoded: List[str] = []
-        for letter in text:
-            if not letter.isalpha():
-                decoded.append(letter)
-                continue
-            decoded_index: int = ascii_uppercase.index(letter) - 13  # -> A + 13 + 13
-            if decoded_index < 0:
-                decoded_index += 26
-            decoded.append(ascii_uppercase[decoded_index])
-        decoded_message: str = "".join(decoded)
-        return decoded_message
+            if letter.isupper():
+                encoded_index: int = ascii_uppercase.index(letter) + 13
+                if encoded_index >= 26:
+                    encoded_index -= 26
+                modified.append(ascii_uppercase[encoded_index])
+            elif letter.islower():
+                encoded_index: int = ascii_lowercase.index(letter) + 13
+                if encoded_index >= 26:
+                    encoded_index -= 26
+                modified.append(ascii_lowercase[encoded_index])
+        modified_message: str = "".join(modified)
+        return modified_message
 
 
 class Rot47(Rot):
@@ -108,10 +77,8 @@ class Rot47(Rot):
 
     Methods
     -------
-    encode(text)
-        Encodes a message using Rot47.
-    decode(text)
-        Decodes a message using Rot47.
+    encode_decode(text)
+        Method for both message encoding and decoding using Rot47.
     """
 
     key_rot47: List[str] = [chr(num) for num in range(33, 127)]
@@ -120,50 +87,27 @@ class Rot47(Rot):
         return "Rot47"
 
     @classmethod
-    def encode(cls, text: str) -> str:
+    def encode_decode(cls, text: str) -> str:
         """
         Returns an encoded message using Rot47 cipher.
 
             Parameters:
-                    text (str): The message to be encoded
+                    text (str): The message to be encoded/decoded
 
             Returns:
-                    encoded_message (str): The encoded message
+                    modified_message (str): The encoded/decoded message
         """
-        encoded: List[str] = []
+        modified: List[str] = []
         for character in text:
             if character not in cls.key_rot47:
-                encoded.append(character)
+                modified.append(character)
                 continue
             encoded_index: int = cls.key_rot47.index(character) + 47
             if encoded_index >= 94:
                 encoded_index -= 94
-            encoded.append(cls.key_rot47[encoded_index])
-        encoded_message: str = "".join(encoded)
-        return encoded_message
-
-    @classmethod
-    def decode(cls, text: str) -> str:
-        """
-        Returns a decoded message using Rot47 cipher.
-
-            Parameters:
-                    text (str): The message to be decoded
-
-            Returns:
-                    decoded_message (str): The decoded message
-        """
-        decoded: List[str] = []
-        for character in text:
-            if character not in cls.key_rot47:
-                decoded.append(character)
-                continue
-            encoded_index: int = cls.key_rot47.index(character) - 47
-            if encoded_index < 0:
-                encoded_index += 94
-            decoded.append(cls.key_rot47[encoded_index])
-        decoded_message: str = "".join(decoded)
-        return decoded_message
+            modified.append(cls.key_rot47[encoded_index])
+        modified_message: str = "".join(modified)
+        return modified_message
 
 
 def get_rot(rot_type):

@@ -1,1 +1,1 @@
-from .validators import choice_int_checker
+from .validators import get_valid_input

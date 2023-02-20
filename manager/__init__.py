@@ -1,1 +1,1 @@
-from .manager import Manager, choice_int_checker
+from .manager import Manager

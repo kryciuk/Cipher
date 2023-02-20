@@ -1,6 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
-import json
+from colorama import Fore
 
 
 @dataclass
@@ -8,23 +8,27 @@ class Message:
     rot_type: str
     text: str
     status: str
-    created_at: datetime = datetime.now()
+    creation: datetime = datetime.now()
 
     def __str__(self):
-        return f"Rot type: {self.rot_type}\nText: {self.text}\nStatus: {self.status}\nCreated: {self.created_at}"
+        time_as_string = self.creation.strftime("%d-%m-%y %H:%M")
+        return f"Rot type: {self.rot_type}      Status: {self.status}       Created: {time_as_string}       Text: {self.text}"
 
     def to_dct(self):
         mess_dict = {
-            "type": self.rot_type,
+            "rot_type": self.rot_type,
             "text": self.text,
             "status": self.status,
-            "creation": self.created_at.strftime("%d-%m-%y %H:%M"),
+            "creation": self.creation.strftime("%d-%m-%y %H:%M"),
         }
         return mess_dict
 
-    # @classmethod
-    # def from_dct(cls, dct):
-    #     return cls(**dct)
+    @classmethod
+    def from_dct(cls, dct):
+        unpacked = cls(**dct)
+        if not isinstance(unpacked.creation, datetime):
+            unpacked.creation = datetime.strptime(unpacked.creation, "%d-%m-%y %H:%M")
+        return unpacked
 
 
 class Buffer:
@@ -32,7 +36,12 @@ class Buffer:
 
     @staticmethod
     def show_buffer():
-        print(Buffer.buffer)
+        if not Buffer.buffer["data"]:
+            print(Fore.LIGHTMAGENTA_EX + "Buffer is empty.")
+        elif Buffer.buffer["data"]:
+            print(Fore.LIGHTMAGENTA_EX + "Buffer:")
+            for obj in enumerate(Buffer.buffer["data"]):
+                print(Fore.LIGHTMAGENTA_EX + f"{obj[0] + 1}. {obj[1]}")
 
     @staticmethod
     def clear_buffer():
@@ -41,3 +50,7 @@ class Buffer:
     @staticmethod
     def add_message_to_buffer(message):
         Buffer.buffer["data"].append(message)
+
+    @staticmethod
+    def transform_to_dict():
+        return {"data": [entry.to_dct() for entry in Buffer.buffer.get("data")]}

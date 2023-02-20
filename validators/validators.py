@@ -1,6 +1,18 @@
-def choice_int_checker(choice):
+def get_valid_number_input(
+    prompt,
+):
+    user_instruction = input(prompt)
     try:
-        choice = int(choice)
+        user_instruction = int(user_instruction)
     except ValueError:
-        pass
+        print("Invalid input. Please enter a number")
+        return get_valid_number_input(prompt)
+
+    return user_instruction
+
+
+def get_valid_input(prompt, valid_options: list = None):
+    choice = input(prompt)
+    while choice not in valid_options:
+        choice = input(f"Invalid option\n{prompt}")
     return choice
