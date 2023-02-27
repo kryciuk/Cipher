@@ -44,7 +44,7 @@ class FileOperationsMenu:
 
 def loading_from_file(file_name):
     transformed_data = {}
-    data = FileHandler.load_file(file_name)
+    data = FileHandler.load(file_name)
     transformed_data["data"] = [Message.from_dct(entry) for entry in data.get("data")]
     return transformed_data
 
