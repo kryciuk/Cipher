@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Type
 from string import ascii_uppercase, ascii_lowercase
 
 
@@ -56,10 +56,10 @@ class Rot13(Rot):
                 modified.append(letter)
                 continue
             if letter.isupper():
-                encoded_index: int = ascii_uppercase.index(letter) + 13
-                if encoded_index >= 26:
-                    encoded_index -= 26
-                modified.append(ascii_uppercase[encoded_index])
+                encoded_index_rot13: int = ascii_uppercase.index(letter) + 13
+                if encoded_index_rot13 >= 26:
+                    encoded_index_rot13 -= 26
+                modified.append(ascii_uppercase[encoded_index_rot13])
             elif letter.islower():
                 encoded_index: int = ascii_lowercase.index(letter) + 13
                 if encoded_index >= 26:
@@ -102,16 +102,22 @@ class Rot47(Rot):
             if character not in cls.key_rot47:
                 modified.append(character)
                 continue
-            encoded_index: int = cls.key_rot47.index(character) + 47
-            if encoded_index >= 94:
-                encoded_index -= 94
-            modified.append(cls.key_rot47[encoded_index])
+            encoded_index_rot47: int = cls.key_rot47.index(character) + 47
+            if encoded_index_rot47 >= 94:
+                encoded_index_rot47 -= 94
+            modified.append(cls.key_rot47[encoded_index_rot47])
         modified_message: str = "".join(modified)
         return modified_message
 
 
-def get_rot(rot_type):
+def get_rot(rot_type: str) -> Type[Rot13 | Rot47] | None:
+    """
+    Returns the cipher type.
+
+            cipher_type (Rot13 | Rot47 | None): Cipher type.
+    """
     if rot_type == "rot13":
         return Rot13
     elif rot_type == "rot47":
         return Rot47
+    return None
