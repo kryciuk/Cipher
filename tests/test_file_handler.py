@@ -1,5 +1,7 @@
-from unittest.mock import patch
+import json
 from file_handler.file_handler import FileHandler
+from os.path import isfile
+import os
 
 
 class TestFileHandler:
@@ -14,16 +16,17 @@ class TestFileHandler:
         ]
     }
 
-    @patch("file_handler.file_handler.FileHandler.load_file")
-    def test_should_open_file(self, mock_load_file):
-        result = TestFileHandler.json_test_content
-        mock_load_file.return_value = result
+    def test_should_open_file(self):
+        with open("test.json", "w+") as file:
+            json.dump(TestFileHandler.json_test_content, file)
+            file.seek(0)
+        content = FileHandler.load("test.json")
 
-        assert FileHandler.load_file("test.json") == result
+        assert content == TestFileHandler.json_test_content
+        os.remove("test.json")
 
-    @patch("file_handler.file_handler.FileHandler.save")
-    def test_should_save_file(self, mock_save):
-        result = TestFileHandler.json_test_content
-        mock_save.return_value = result
+    def test_should_save_file(self):
+        FileHandler.save("test1.json", TestFileHandler.json_test_content)
 
-        assert FileHandler.save("test.json") == result
+        assert isfile("test1.json") and os.access("test1.json", os.R_OK)
+        os.remove("test1.json")
