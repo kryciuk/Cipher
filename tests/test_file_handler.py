@@ -1,7 +1,8 @@
 import json
-from file_handler.file_handler import FileHandler
-from os.path import isfile
 import os
+from os.path import isfile
+
+from file_handler.file_handler import FileHandler
 
 
 class TestFileHandler:

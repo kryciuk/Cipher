@@ -1,9 +1,11 @@
-import pytest
-from manager import Manager
 from unittest.mock import patch
-from functionality.rot import Rot47
-from buffer import Buffer
+
+import pytest
 from freezegun import freeze_time
+
+from buffer import Buffer
+from functionality.rot import Rot47
+from manager import Manager
 
 
 class TestManager:

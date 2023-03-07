@@ -1,4 +1,4 @@
-from functionality.rot import get_rot, Rot47, Rot13
+from functionality.rot import Rot13, Rot47, get_rot
 
 
 class TestGetRot:

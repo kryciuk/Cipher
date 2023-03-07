@@ -1,7 +1,9 @@
-from buffer import Buffer, Message
 import datetime
-from freezegun import freeze_time
+
 from colorama import Fore
+from freezegun import freeze_time
+
+from buffer import Buffer, Message
 
 
 class TestMessage:

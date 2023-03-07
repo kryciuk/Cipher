@@ -1,9 +1,10 @@
-from validators import get_valid_input
-from buffer import Buffer
-from file_handler import FileHandler
+from typing import Any, Dict, List
+
 from colorama import Fore
-from buffer import Message
-from typing import Dict, List, Any
+
+from buffer import Buffer, Message
+from file_handler import FileHandler
+from validators import get_valid_input
 
 
 class FileOperationsMenu:

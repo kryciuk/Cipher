@@ -1,8 +1,9 @@
-import json
-from menu import file_operations
-from buffer import Message
 import datetime
+import json
 from unittest.mock import patch
+
+from buffer import Message
+from menu import file_operations
 
 
 class TestFileOperations:

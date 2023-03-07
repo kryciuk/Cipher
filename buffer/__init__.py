@@ -1,1 +1,1 @@
-from .buffer import Message, Buffer
+from .buffer import Buffer, Message

@@ -1,7 +1,7 @@
-from validators import get_valid_input
-from menu import Menu
-from buffer import Buffer
 from colorama import Fore
+
+from buffer import Buffer
+from validators import get_valid_input
 
 
 class BufferMenu:

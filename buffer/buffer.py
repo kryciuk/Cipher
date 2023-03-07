@@ -1,7 +1,8 @@
-from datetime import datetime
 from dataclasses import dataclass
-from colorama import Fore
+from datetime import datetime
 from typing import Dict, List
+
+from colorama import Fore
 
 
 @dataclass

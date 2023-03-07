@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
+from string import ascii_lowercase, ascii_uppercase
 from typing import List, Type
-from string import ascii_uppercase, ascii_lowercase
 
 
 class Rot(ABC):

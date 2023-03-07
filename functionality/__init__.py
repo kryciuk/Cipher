@@ -1,1 +1,1 @@
-from .rot import get_rot, Rot13, Rot47
+from .rot import Rot13, Rot47, get_rot

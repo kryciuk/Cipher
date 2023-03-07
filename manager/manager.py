@@ -1,7 +1,8 @@
-from menu import Menu, BufferMenu, FileOperationsMenu
-from functionality import get_rot
 from colorama import Fore
-from buffer import Message, Buffer
+
+from buffer import Buffer, Message
+from functionality import get_rot
+from menu import BufferMenu, FileOperationsMenu, Menu
 from validators import get_valid_input
 
 
